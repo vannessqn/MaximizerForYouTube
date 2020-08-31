@@ -17,11 +17,6 @@ There are no customization options at this time, but some may be added in the fu
 
 _Note the extension only supports YouTube's newer "Material Design" layout._
 
-## Installation as a browser extension
-
-* Chrome: [Install through the Chrome Web Store](https://chrome.google.com/webstore/detail/maximizer-for-youtube/pjabpcpedpjpbmpdmklgfcoelpkhbamk).
-* Firefox: [Install through the Mozilla add-on site](https://addons.mozilla.org/en-US/firefox/addon/maximizer-for-youtube/).
-
 ## Installation as a userscript
 
 1. Make sure you have the [Greasemonkey](https://addons.mozilla.org/en-US/firefox/addon/greasemonkey/) (Firefox) or [Tampermonkey](https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo?hl=en) (Chrome/Firefox) browser extension installed.
