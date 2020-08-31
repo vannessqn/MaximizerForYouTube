@@ -1,10 +1,10 @@
 // ==UserScript==
-// @name        Maximizer For YouTube™
-// @description Maximizes the YouTube player to fill the entire browser viewport when in theater mode, plus a few other enhancements.
+// @name        Maximizer For YouTube - Modification by Misery
+// @description Maximizes the YouTube player to fill the entire browser viewport when in theater mode, ZZZZplus a few other enhancementsZZZZ
 // @license     MIT
 // @author      Rotem Dan <rotemdan@gmail.com>
 // @match       https://www.youtube.com/*
-// @version     0.2.1
+// @version     0.2.1 plus
 // @run-at      document-start
 // @grant       none
 // @namespace   https://github.com/rotemdan
@@ -34,7 +34,9 @@ function setImmediate(func) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Core script modification functions
 ////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+function hideSPFLoadingBar() {
+	$("head").append("<style>#progress, yt-page-navigation-progress {display: none !important}</style>");
+}
 // Install or uninstall full-size player page stylesheet if needed
 function installOrUninstallPlayerModIfNeeded() {
 	if (inWatchPage() && theaterModeEnabled()) {
@@ -177,82 +179,14 @@ function installPlayerKeyboardShortcutExtensions() {
 	$(document).on("keydown", onKeyDown);
 }
 
-// Expands video description
-function ensureExpandedVideoDescription() {
-	setInterval(() => {
-		$("ytd-expander.description, ytd-expander.ytd-video-secondary-info-renderer").removeAttr("collapsed")
-	}, 50);
-}
+  // Expands video description1
 
-// Expands video description
-function ensureModdedTheaterModeButton() {
-	setInterval(() => {
-		const playerModeButton = $("button.ytp-size-button");
 
-		if (playerModeButton.length === 0 || playerModeButton.hasClass("MaximizerForYouTube_PlayerMod_Modded"))
-			return;
+  // Expands video description
 
-		playerModeButton.on("click", () => {
-			setTimeout(() => {
-				installOrUninstallPlayerModIfNeeded();
-
-				const resizeEvent = new Event('resize');
-				window.dispatchEvent(resizeEvent);
-			}, 0)
-		})
-
-		playerModeButton.addClass("MaximizerForYouTube_PlayerMod_Modded");
-	}, 50);
-}
-
-function ensurePlayerIsAlwaysPaused() {
-	setInterval(() => {
-		const player = getVideoPlayer().get(0);
-		if (player) {
-			player.pause();
-		}
-	}, 1000);
-}
-
-function hideSPFLoadingBar() {
-	$("head").append("<style>#progress, yt-page-navigation-progress {display: none !important}</style>");
-}
 
 // Pauses playing videos in other tabs when a video play event is detected (works in both watch and channel page videos)
-function ensurePlayerAutoPause() {
-	const videoPlayer = getVideoPlayer();
 
-	if (videoPlayer.length > 0 && !videoPlayer.hasClass("MaximizerForYouTube_Modded_Autopause")) {
-		// Generate a random script instance ID
-		const instanceID = Math.random().toString();
-
-		function onVideoPlay() {
-			log("onVideoPlay")
-			localStorage["MaximizerForYouTube_PlayingInstanceID"] = instanceID;
-
-			function pauseWhenAnotherPlayerStartsPlaying() {
-				if (localStorage["MaximizerForYouTube_PlayingInstanceID"] !== instanceID)
-					videoPlayer[0].pause();
-				else
-					setTimeout(pauseWhenAnotherPlayerStartsPlaying, 20);
-			}
-
-			pauseWhenAnotherPlayerStartsPlaying();
-		}
-
-		// If video isn't paused on startup, fire the handler immediately
-		if (!videoPlayer[0].paused)
-			onVideoPlay();
-
-		// Add event handler for the "play" event.
-		videoPlayer.on("play", onVideoPlay);
-
-		// Mark the player as modded to ensure the autopause mod isn't installed again
-		videoPlayer.addClass("MaximizerForYouTube_Modded_Autopause");
-	}
-
-	setTimeout(ensurePlayerAutoPause, 50);
-}
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Utility functions
